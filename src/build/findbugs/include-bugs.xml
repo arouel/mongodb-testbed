@@ -1,0 +1,12 @@
+<FindBugsFilter>
+	<!-- when adding Bug patterns here, make sure you double check the "visitors" argument in findbugs task in build.gradle  -->
+	<Match>
+		<Bug pattern="SE_BAD_FIELD" />
+	</Match>
+	<Match>
+		<Bug pattern="SE_NO_SERIALVERSIONID" />
+	</Match>
+	<Match>
+		<Bug pattern="DM_NUMBER_CTOR" />
+	</Match>
+</FindBugsFilter>

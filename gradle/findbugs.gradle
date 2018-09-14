@@ -1,0 +1,27 @@
+apply plugin: 'findbugs'
+tasks.withType(FindBugs) { FindBugs task ->
+    task.reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+
+    task.include '**/*.java'
+
+    task.dependsOn compileJava
+}
+findbugs {
+    sourceSets = [sourceSets.main]
+    ignoreFailures = true
+    includeFilter = rootProject.file("src/build/findbugs/include-bugs.xml")
+    // specifying visitors before run speeds up findbugs task
+    visitors = ["FindNullDeref", // RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE
+                "NumberConstructor", // DM_NUMBER_CTOR
+                "SerializableIdiom", // SE_BAD_FIELD
+    ]
+    reportLevel = 'low'
+    
+}
+
+findbugsTest {
+    enabled = true
+}
