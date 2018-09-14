@@ -1,0 +1,2 @@
+@ImmutablesStyle
+package prototype;
