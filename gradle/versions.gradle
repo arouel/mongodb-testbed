@@ -12,4 +12,6 @@ versions.guava = '26.0-jre'
 
 versions.immutables = '2.7.1'
 
+versions.log4j = '2.11.1'
+
 versions.mongoJavaDriver = '3.8.1'

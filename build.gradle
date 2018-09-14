@@ -16,6 +16,10 @@ apply from: 'gradle/findbugs.gradle'
 
 group = 'prototype'
 mainClassName = "prototype.Test"
+applicationDefaultJvmArgs = [
+    "-Dlog4j.configurationFile=log4j2.properties",
+    "-Djava.util.logging.manager=org.apache.logging.log4j.jul.LogManager"
+]
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -28,10 +32,14 @@ dependencies {
 
     compile group: 'com.google.code.findbugs', name: 'jsr305', version: '2.0.3'
     compile group: 'com.google.guava', name: 'guava', version: versions.guava
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: versions.log4j
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: versions.log4j
     compile group: 'org.mongodb', name: 'mongo-java-driver', version: versions.mongoJavaDriver
 
     errorprone group: "com.google.errorprone", name: "error_prone_core", version: versions.errorprone
     errorproneJavac group: 'com.google.errorprone', name: 'javac', version: versions.errorproneJavac
+
+    runtime group: 'org.apache.logging.log4j', name: 'log4j-jul', version: versions.log4j
 
     testCompile group: 'org.assertj', name: 'assertj-core', version: '3.11.+'
     testCompile group: 'org.mockito', name: 'mockito-core', version: '2.22.+'
