@@ -5,9 +5,10 @@ dependencies {
     annotationProcessor group: 'org.immutables', name: 'value', version: versions.immutables
 
     compileOnly group: 'org.immutables', name: 'builder', version: versions.immutables
-    compileOnly group: 'org.immutables', name: 'gson', version: versions.immutables
-    compileOnly group: 'org.immutables', name: 'mongo', version: versions.immutables, transitive: false
     compileOnly group: "org.immutables", name: "value", version: versions.immutables, classifier: 'annotations'
+
+    compile group: 'org.immutables', name: 'gson', version: versions.immutables
+    compile group: 'org.immutables', name: 'mongo', version: versions.immutables, transitive: false
 
     runtime group: 'org.immutables', name: 'gson', version: versions.immutables, transitive: false
 }
