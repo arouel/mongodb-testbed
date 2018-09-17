@@ -5,7 +5,7 @@ import java.util.concurrent.ExecutionException;
 import com.google.common.base.Optional;
 import org.immutables.mongo.repository.RepositorySetup;
 
-public class ImmutablesPlusMongoDb {
+public class Main {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         String uri = "mongodb://localhost/test";
