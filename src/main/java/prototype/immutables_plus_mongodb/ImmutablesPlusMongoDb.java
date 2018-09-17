@@ -1,11 +1,11 @@
-package prototype;
+package prototype.immutables_plus_mongodb;
 
 import java.util.concurrent.ExecutionException;
 
 import com.google.common.base.Optional;
 import org.immutables.mongo.repository.RepositorySetup;
 
-public class Test {
+public class ImmutablesPlusMongoDb {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         String uri = "mongodb://localhost/test";

@@ -22,7 +22,7 @@ apply(from = "gradle/versions.gradle.kts")
 application {
     group = "prototype"
 
-    mainClassName = "prototype.Test"
+    mainClassName = "prototype.ImmutablesPlusMongoDb"
 
     applicationDefaultJvmArgs = listOf(
             "-Dlog4j.configurationFile=log4j2.properties",

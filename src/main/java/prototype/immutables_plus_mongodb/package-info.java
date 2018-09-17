@@ -1,0 +1,2 @@
+@ImmutablesStyle
+package prototype.immutables_plus_mongodb;
