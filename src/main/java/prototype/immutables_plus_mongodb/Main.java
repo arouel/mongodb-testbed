@@ -3,9 +3,13 @@ package prototype.immutables_plus_mongodb;
 import java.util.concurrent.ExecutionException;
 
 import com.google.common.base.Optional;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.immutables.mongo.repository.RepositorySetup;
 
 public class Main {
+
+    private static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         String uri = "mongodb://localhost/test";
@@ -26,7 +30,7 @@ public class Main {
 
         // Insert sync
         Integer insertCount = items.insert(item).get();
-        System.out.println("insert: " + insertCount);
+        logger.info("insert: {}", insertCount);
 
         Optional<Item> modifiedItem = items.findById(item.id())
 
@@ -47,7 +51,7 @@ public class Main {
                 // unsafe
                 .getUnchecked();
 
-        System.out.println("modifiedItem: " + modifiedItem);
+        logger.info("modified item: {}", modifiedItem);
 
         // Update all matching documents
         Integer updateCount = items.update(
@@ -59,9 +63,9 @@ public class Main {
                 .updateAll()
                 .get();
 
-        System.out.println("update: " + updateCount);
+        logger.info("update: " + updateCount);
 
         Optional<Item> foundItem = items.findById(1).fetchFirst().get();
-        System.out.println("found: " + foundItem);
+        logger.info("found: {}", foundItem);
     }
 }
