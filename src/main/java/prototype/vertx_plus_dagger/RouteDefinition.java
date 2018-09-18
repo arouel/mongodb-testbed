@@ -4,7 +4,7 @@ import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
 @FunctionalInterface
-public interface RouteSetup {
+public interface RouteDefinition {
 
     Route define(Router router);
 

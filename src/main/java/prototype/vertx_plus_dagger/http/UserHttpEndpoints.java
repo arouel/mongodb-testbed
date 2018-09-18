@@ -8,16 +8,16 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
 import io.vertx.core.http.HttpMethod;
-import prototype.vertx_plus_dagger.RouteSetup;
+import prototype.vertx_plus_dagger.RouteDefinition;
 
 @Module
-public class UserHttpEndpoints {
+public final class UserHttpEndpoints {
 
     @Provides
     @Singleton
     @IntoSet
-    RouteSetup user() {
-        return (router) -> router.route(HttpMethod.GET, "/user/:username")
+    RouteDefinition user() {
+        return router -> router.route(HttpMethod.GET, "/user/:username")
                 .produces(MediaType.PLAIN_TEXT_UTF_8.type())
                 .handler(context -> context.response().end("Hi " + context.request().getParam("username")));
     }

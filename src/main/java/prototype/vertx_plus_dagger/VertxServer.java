@@ -19,9 +19,9 @@ import io.vertx.ext.web.Route;
 import io.vertx.ext.web.Router;
 
 @Module
-public class VertxServerModule {
+public final class VertxServer {
 
-    private static final Logger LOG = LogManager.getLogger(VertxServerModule.class);
+    private static final Logger LOG = LogManager.getLogger(VertxServer.class);
 
     @Provides
     @Singleton
@@ -31,11 +31,11 @@ public class VertxServerModule {
 
     @Provides
     @Singleton
-    static Router router(Vertx vertx, Set<RouteSetup> routeDefinitions) {
+    static Router router(Vertx vertx, Set<RouteDefinition> routeDefinitions) {
         Router router = Router.router(Vertx.vertx());
         LOG.info("Defining routes:");
-        for (RouteSetup routeSetup : routeDefinitions) {
-            Route route = routeSetup.define(router);
+        for (RouteDefinition routeDefinition : routeDefinitions) {
+            Route route = routeDefinition.define(router);
             LOG.info("\t" + route.getPath());
         }
         return router;

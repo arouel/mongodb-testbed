@@ -6,16 +6,16 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
 import io.vertx.core.http.HttpMethod;
-import prototype.vertx_plus_dagger.RouteSetup;
+import prototype.vertx_plus_dagger.RouteDefinition;
 
 @Module
-public class CommonHttpEndpoints {
+public final class CommonHttpEndpoints {
 
     @Provides
     @Singleton
     @IntoSet
-    RouteSetup root() {
-        return (router) -> router.route(HttpMethod.GET, "/")
+    RouteDefinition root() {
+        return router -> router.route(HttpMethod.GET, "/")
                 .handler(context -> context.response().end("Hi there, this is Dagger/Vertx!"));
     }
 }
