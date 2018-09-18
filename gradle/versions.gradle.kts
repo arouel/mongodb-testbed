@@ -2,6 +2,7 @@ configure<ExtraPropertiesExtension> {
     set("junitPlatformVersion", "1.0.3")
     set("junitJupiterVersion", "5.3.1")
     set("versions", hashMapOf(
+            "dagger" to "2.17",
             "errorprone" to "2.3.1",
             "errorproneJavac" to "9+181-r4173-1",
             "guava" to "26.0-jre",
