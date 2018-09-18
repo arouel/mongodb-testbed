@@ -8,12 +8,12 @@ plugins {
     eclipse
     checkstyle
     findbugs
-    id("net.ltgt.apt").version("0.18")
-    id("net.ltgt.apt-eclipse").version("0.18")
-    id("com.sourcemuse.mongo").version("1.0.6")
-    id("net.ltgt.errorprone").version("0.6")
-    id("nu.studer.credentials").version("1.0.4")
-    id("org.sonarqube").version("2.6.2")
+    id("net.ltgt.apt")          version "0.18"
+    id("net.ltgt.apt-eclipse")  version "0.18"
+    id("com.sourcemuse.mongo")  version "1.0.6"
+    id("net.ltgt.errorprone")   version "0.6"
+    id("nu.studer.credentials") version "1.0.4"
+    id("org.sonarqube")         version "2.6.2"
 }
 
 
@@ -54,6 +54,14 @@ dependencies {
     compile(group = "org.immutables", name = "mongo", version = versions["immutables"]).isTransitive = false
 
     runtime(group = "org.immutables", name = "gson", version = versions["immutables"]).isTransitive = false
+}
+
+dependencies {
+    description = "Vertx dependencies"
+
+	val versions = ext["versions"] as HashMap<String, String>
+    compile(group = "io.vertx", name = "vertx-core", version = versions["vertx"])
+    compile(group = "io.vertx", name = "vertx-web", version = versions["vertx"])
 }
 
 dependencies {
