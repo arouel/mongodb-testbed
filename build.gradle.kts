@@ -19,6 +19,8 @@ plugins {
 
 apply(from = "gradle/versions.gradle.kts")
 
+val versions = ext["versions"] as HashMap<String, String>
+
 application {
     group = "prototype"
 
@@ -42,8 +44,6 @@ repositories {
 dependencies {
     description = "Immutables generator dependencies"
 
-    val versions = rootProject.extra.get("versions") as (HashMap<String, String>)
-
     annotationProcessor(group = "org.immutables", name = "gson", version = versions["immutables"]).isTransitive = false
     annotationProcessor(group = "org.immutables", name = "value", version = versions["immutables"])
 
@@ -59,14 +59,18 @@ dependencies {
 dependencies {
     description = "Vertx dependencies"
 
-	val versions = ext["versions"] as HashMap<String, String>
     compile(group = "io.vertx", name = "vertx-core", version = versions["vertx"])
     compile(group = "io.vertx", name = "vertx-web", version = versions["vertx"])
 }
 
 dependencies {
+    description = "Dagger dependencies"
 
-    val versions = ext.get("versions") as HashMap<String, String>
+    compile(group = "com.google.dagger", name = "dagger", version = versions["dagger"])
+    annotationProcessor(group = "com.google.dagger", name = "dagger-compiler", version = versions["dagger"])
+}
+
+dependencies {
 
     compile(group = "com.google.code.findbugs", name = "jsr305", version = "2.0.3")
     compile(group = "com.google.guava", name = "guava", version = versions["guava"])

@@ -22,7 +22,7 @@ public class VertxMain {
         Router router = Router.router(Vertx.vertx());
 
         // Simple route
-        router.route(HttpMethod.GET, "/").handler(context -> context.response().end("Hi there"));
+        router.route(HttpMethod.GET, "/").handler(context -> context.response().end("Hi there, this is Vertx!"));
 
         // Simple route with parameterized URL
         router.route(HttpMethod.GET, "/user/:username")
