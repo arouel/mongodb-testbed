@@ -7,6 +7,7 @@ configure<ExtraPropertiesExtension> {
             "guava" to "26.0-jre",
             "immutables" to "2.7.1",
             "log4j" to "2.11.1",
-            "mongoJavaDriver" to "3.8.1"))
+            "mongoJavaDriver" to "3.8.1",
+            "vertx" to "3.5.3"))
 }
 

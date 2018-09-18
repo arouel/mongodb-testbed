@@ -59,8 +59,9 @@ dependencies {
 dependencies {
     description = "Vertx dependencies"
 
-    compile(group = "io.vertx", name = "vertx-core", version = ext["vertxVersion"].toString())
-    compile(group = "io.vertx", name = "vertx-web", version = ext["vertxVersion"].toString())
+	val versions = ext["versions"] as HashMap<String, String>
+    compile(group = "io.vertx", name = "vertx-core", version = versions["vertx"])
+    compile(group = "io.vertx", name = "vertx-web", version = versions["vertx"])
 }
 
 dependencies {
