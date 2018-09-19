@@ -3,6 +3,7 @@ configure<ExtraPropertiesExtension> {
     set("junitJupiterVersion", "5.3.1")
     set("versions", hashMapOf(
             "autoService" to "1.0-rc4",
+            "axon" to "3.3.5",
             "dagger" to "2.17",
             "errorprone" to "2.3.1",
             "errorproneJavac" to "9+181-r4173-1",

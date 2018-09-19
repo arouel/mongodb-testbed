@@ -78,6 +78,7 @@ dependencies {
     compile(group = "com.google.guava", name = "guava", version = versions["guava"])
     compile(group = "org.apache.logging.log4j", name = "log4j-core", version = versions["log4j"])
     compile(group = "org.apache.logging.log4j", name = "log4j-api", version = versions["log4j"])
+    compile(group = "org.axonframework", name = "axon-core", version = versions["axon"])
     compile(group = "org.mongodb", name = "mongo-java-driver", version = versions["mongoJavaDriver"])
 
     errorprone(group = "com.google.errorprone", name = "error_prone_core", version = versions["errorprone"])
