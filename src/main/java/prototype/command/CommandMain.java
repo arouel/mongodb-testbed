@@ -3,39 +3,38 @@ package prototype.command;
 import java.util.concurrent.ExecutionException;
 
 import com.google.common.base.Stopwatch;
-import io.vertx.core.Future;
-import prototype.command.handler.CommandHandler;
+import core.Result;
+import core.Unit;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CommandMain {
 
     public static void main(String[] args) throws InterruptedException, ExecutionException {
+
+        // Log4j JDK Logging Adapter
+        System.setProperty("java.util.logging.manager", "org.apache.logging.log4j.jul.LogManager");
+
+        Logger logger = LogManager.getLogger(CommandMain.class);
+
         Stopwatch stopwatch = Stopwatch.createStarted();
 
-        CreateTodo createTodoCommand = Command.createTodo("test1", "do something");
-        Future<Todo> createTodo = CommandHandler.resolve(createTodoCommand);
-        Future<Unit> deleteTodo = createTodo
-                .compose(todo -> {
-                    EditDescription editDescription = Command.editDescription(todo.id(), "do something else");
-                    return CommandHandler.resolve(editDescription);
+        TodoApp app = TodoApp
+                .builder()
+                .mongoClientUri("mongodb://localhost/test")
+                .build();
+
+        Result<Unit> result = app.commandCreateTodo("test1", "do something")
+                .flatMap(todoId -> {
+                    return app.commandEditDescription(todoId, "do something else");
                 })
-                .compose(todo -> {
-                    EditDescription editDescription = Command.editDescription(todo.id(), "do something totally different");
-                    return CommandHandler.resolve(editDescription);
+                .flatMap(todoId -> {
+                    return app.commandEditDescription(todoId, "do something totally different");
                 })
-                .compose(todo -> {
-                    DeleteTodo deleteTodoCommand = Command.deleteTodo(todo.id());
-                    return CommandHandler.resolve(deleteTodoCommand);
+                .flatMap(todoId -> {
+                    return app.commandDeleteTodo(todoId);
                 });
 
-        do {
-            Thread.sleep(1000);
-            System.out.println("successfully completed");
-        } while (!deleteTodo.isComplete());
-
-        if (deleteTodo.failed()) {
-            deleteTodo.cause().printStackTrace();
-        }
-
-        System.out.println(stopwatch);
+        logger.info(stopwatch + ": " + result);
     }
 }
