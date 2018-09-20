@@ -1,11 +1,10 @@
 package prototype.command;
 
-import core.Command;
-import core.Unit;
+import core.Query;
 import org.immutables.value.Value.Immutable;
 
 @Immutable
-public abstract class DeleteTodo implements Command<Unit> {
+public abstract class ShowTodo implements Query<Todo> {
 
     public abstract long todoId();
 
