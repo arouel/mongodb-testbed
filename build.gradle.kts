@@ -1,21 +1,26 @@
+import com.github.spotbugs.SpotBugsExtension
+import com.github.spotbugs.SpotBugsTask
 import net.ltgt.gradle.apt.*
 import org.gradle.plugins.ide.eclipse.model.EclipseJdt
 import org.gradle.plugins.ide.eclipse.model.EclipseModel
+import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
+import org.gradle.plugins.ide.idea.model.IdeaModel
 
 plugins {
     java
     application
     eclipse
+    idea
     checkstyle
-    findbugs
+    id("com.github.spotbugs")   version "1.6.3"
     id("net.ltgt.apt")          version "0.18"
     id("net.ltgt.apt-eclipse")  version "0.18"
+    id("net.ltgt.apt-idea")     version "0.18"
     id("com.sourcemuse.mongo")  version "1.0.6"
     id("net.ltgt.errorprone")   version "0.6"
     id("nu.studer.credentials") version "1.0.4"
     id("org.sonarqube")         version "2.6.2"
 }
-
 
 apply(from = "gradle/versions.gradle.kts")
 
@@ -148,6 +153,24 @@ val eclipseJdtPrepare = tasks.create("eclipseJdtPrepare", Copy::class) {
 
 tasks[EclipsePlugin.ECLIPSE_JDT_TASK_NAME].dependsOn(eclipseJdtPrepare)
 
+// idea
+configure<IdeaModel> {
+    module {
+        apt {
+            addGeneratedSourcesDirs = true
+            addAptDependencies = true
+        }
+
+        outputDir = file("build/classes-main-ide")
+    }
+
+    project {
+        jdkName = "9"
+        languageLevel = IdeaLanguageLevel(JavaVersion.VERSION_1_9)
+        vcs = "Git"
+    }
+}
+
 // checkstyle
 configure<CheckstyleExtension> {
     toolVersion = "7.7"
@@ -163,23 +186,24 @@ tasks.withType(Checkstyle::class) {
     }
 }
 
-// findbugs
-configure<FindBugsExtension> {
-    sourceSets = listOf(rootProject.sourceSets["main"])
+
+// spotbugs
+configure<SpotBugsExtension> {
+    toolVersion = "3.1.3"
+    sourceSets = sourceSets.filter { p -> p.name == "main" }
     isIgnoreFailures = true
-    setIncludeFilter(rootProject.file("src/build/findbugs/include-bugs.xml"))
+    includeFilter = rootProject.file("src/build/findbugs/include-bugs.xml")
     reportLevel = "low"
-    visitors = listOf(
-            "FindNullDeref", // RCN_REDUNDANT_NULLCHECK_OF_NONNULL_VALUE
-            "NumberConstructor", // DM_NUMBER_CTOR
-            "SerializableIdiom" // SE_BAD_FIELD
-    )
 }
 
-tasks.withType(FindBugs::class) {
+dependencies {
+    spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1")
+}
+
+tasks.withType(SpotBugsTask::class) {
     reports {
-        xml.isEnabled = true
-        html.isEnabled = false
+        xml.isEnabled = false
+        html.isEnabled = true
     }
 
     include("**/*.java")
