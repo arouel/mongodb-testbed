@@ -1,0 +1,35 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Vertx Test</title>
+  <script>
+    fetch('http://localhost:8080/welcome')
+        .then(function(response) {
+            return response.text();
+    })
+    .then(function(text) {
+        document.getElementById("welcome").innerHTML = text;
+    });
+  
+    var socket = new WebSocket("ws://localhost:8080/websocket");
+    socket.onmessage = function(event) {
+        document.getElementById("currentTime").innerHTML = event.data;
+    }
+    socket.onopen = function(event) {
+        //socket.send("Hello World");
+    };
+    socket.onclose = function(event) {
+        alert("Web Socket closed");
+    };
+  </script>
+</head>
+
+<body>
+  <div>
+    <h1 id="welcome"> </h1>
+    <span>Current Time: </span><span id="currentTime"/>
+  </div>
+</body>
+</html>

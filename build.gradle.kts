@@ -12,17 +12,19 @@ plugins {
     eclipse
     idea
     checkstyle
-    id("com.github.spotbugs").version("1.6.3")
-    id("net.ltgt.apt").version("0.18")
-    id("net.ltgt.apt-eclipse").version("0.18")
-    id("net.ltgt.apt-idea").version("0.18")
-    id("com.sourcemuse.mongo").version("1.0.6")
-    id("net.ltgt.errorprone").version("0.6")
-    id("nu.studer.credentials").version("1.0.4")
-    id("org.sonarqube").version("2.6.2")
+    id("com.github.spotbugs")   version "1.6.3"
+    id("net.ltgt.apt")          version "0.18"
+    id("net.ltgt.apt-eclipse")  version "0.18"
+    id("net.ltgt.apt-idea")     version "0.18"
+    id("com.sourcemuse.mongo")  version "1.0.6"
+    id("net.ltgt.errorprone")   version "0.6"
+    id("nu.studer.credentials") version "1.0.4"
+    id("org.sonarqube")         version "2.6.2"
 }
 
 apply(from = "gradle/versions.gradle.kts")
+
+val versions = ext["versions"] as HashMap<String, String>
 
 application {
     group = "prototype"
@@ -47,11 +49,11 @@ repositories {
 dependencies {
     description = "Immutables generator dependencies"
 
-    val versions = rootProject.extra.get("versions") as (HashMap<String, String>)
-
+    annotationProcessor(group = "com.google.auto.service", name = "auto-service", version = versions["autoService"])
     annotationProcessor(group = "org.immutables", name = "gson", version = versions["immutables"]).isTransitive = false
     annotationProcessor(group = "org.immutables", name = "value", version = versions["immutables"])
 
+    compileOnly(group = "com.google.auto.service", name = "auto-service", version = versions["autoService"])
     compileOnly(group = "org.immutables", name = "builder", version = versions["immutables"])
     compileOnly(group = "org.immutables", name = "value", version = versions["immutables"], classifier = "annotations")
 
@@ -62,8 +64,20 @@ dependencies {
 }
 
 dependencies {
+    description = "Vertx dependencies"
 
-    val versions = ext.get("versions") as HashMap<String, String>
+    compile(group = "io.vertx", name = "vertx-core", version = versions["vertx"])
+    compile(group = "io.vertx", name = "vertx-web", version = versions["vertx"])
+}
+
+dependencies {
+    description = "Dagger dependencies"
+
+    compile(group = "com.google.dagger", name = "dagger", version = versions["dagger"])
+    annotationProcessor(group = "com.google.dagger", name = "dagger-compiler", version = versions["dagger"])
+}
+
+dependencies {
 
     compile(group = "com.google.code.findbugs", name = "jsr305", version = "2.0.3")
     compile(group = "com.google.guava", name = "guava", version = versions["guava"])
