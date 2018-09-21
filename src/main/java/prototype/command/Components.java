@@ -40,6 +40,7 @@ import prototype.command.handler.DeleteTodoHandler;
 import prototype.command.handler.EditDescriptionHandler;
 import prototype.command.handler.ShowTodoChildrenHandler;
 import prototype.command.handler.ShowTodoHandler;
+import prototype.command.handler.ShowTodoTreeHandler;
 
 /**
  * Describes all components of this application
@@ -180,6 +181,14 @@ class Components {
     @SuppressWarnings("unchecked")
     public QueryHandler<Query<?>, ?> showTodoHandler(TodoRepository repository) {
         return QueryHandler.class.cast(new ShowTodoHandler(repository));
+    }
+
+    @Provides
+    @Singleton
+    @IntoSet
+    @SuppressWarnings("unchecked")
+    public QueryHandler<Query<?>, ?> showTodoTreeHandler(TodoRepository repository) {
+        return QueryHandler.class.cast(new ShowTodoTreeHandler(repository));
     }
 
     @Provides

@@ -85,4 +85,27 @@ class TodoAppTest implements TodoAppTestSupport {
                 queryShowTodo(todoId3).get());
     }
 
+    @Test
+    void testShowTodoTree() {
+
+        // set up
+        long todoId1 = commandCreateTodo("Todo 1", "desc 1").get();
+        long todoId2 = commandCreateTodo("Todo 2", "desc 2", todoId1).get();
+        long todoId3 = commandCreateTodo("Todo 3", "desc 3", todoId1).get();
+        long todoId4 = commandCreateTodo("Todo 4", "desc 4", todoId2).get();
+        long todoId5 = commandCreateTodo("Todo 5", "desc 5", todoId3).get();
+        long todoId6 = commandCreateTodo("Todo 6", "desc 6", todoId4).get();
+        long todoId7 = commandCreateTodo("Todo 7", "desc 7", todoId3).get();
+
+        // to test
+        Result<Node<Todo>> result = queryShowTodoTree(todoId1);
+
+        // verify
+        Node<Long> node = result.get().map(Todo::id);
+
+        assertThat(node.allValues()).containsExactly(todoId1, todoId2, todoId4, todoId6, todoId3, todoId5, todoId7);
+        assertThat(node.allChildValues()).containsExactly(todoId2, todoId4, todoId6, todoId3, todoId5, todoId7);
+        assertThat(node.childValues()).containsExactly(todoId2, todoId3);
+    }
+
 }

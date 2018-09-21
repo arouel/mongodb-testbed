@@ -35,4 +35,8 @@ public interface Operations extends CommandBus, Commands, QueryBus, Queries {
         return query(showTodoChildren(parentTodoId));
     }
 
+    default Result<Node<Todo>> queryShowTodoTree(long todoId) {
+        return query(showTodoTree(todoId));
+    }
+
 }
