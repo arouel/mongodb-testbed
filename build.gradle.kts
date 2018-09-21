@@ -53,7 +53,7 @@ dependencies {
     annotationProcessor(group = "org.immutables", name = "gson", version = versions["immutables"]).isTransitive = false
     annotationProcessor(group = "org.immutables", name = "value", version = versions["immutables"])
 
-    compileOnly(group = "com.google.auto.service", name = "auto-service", version = versions["autoService"])
+    compileOnly(group = "com.google.auto.service", name = "auto-service", version = versions["autoService"]).isTransitive = false
     compileOnly(group = "org.immutables", name = "builder", version = versions["immutables"])
     compileOnly(group = "org.immutables", name = "value", version = versions["immutables"], classifier = "annotations")
 
