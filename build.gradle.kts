@@ -12,14 +12,15 @@ plugins {
     eclipse
     idea
     checkstyle
-    id("com.github.spotbugs")   version "1.6.3"
-    id("net.ltgt.apt")          version "0.18"
-    id("net.ltgt.apt-eclipse")  version "0.18"
-    id("net.ltgt.apt-idea")     version "0.18"
-    id("com.sourcemuse.mongo")  version "1.0.6"
-    id("net.ltgt.errorprone")   version "0.6"
-    id("nu.studer.credentials") version "1.0.4"
-    id("org.sonarqube")         version "2.6.2"
+    id("com.github.spotbugs")    version "1.6.3"
+    id("com.sourcemuse.mongo")   version "1.0.6"
+    id("me.champeau.gradle.jmh") version "0.4.7"
+    id("net.ltgt.apt")           version "0.18"
+    id("net.ltgt.apt-eclipse")   version "0.18"
+    id("net.ltgt.apt-idea")      version "0.18"
+    id("net.ltgt.errorprone")    version "0.6"
+    id("nu.studer.credentials")  version "1.0.4"
+    id("org.sonarqube")          version "2.6.2"
 }
 
 apply(from = "gradle/versions.gradle.kts")
