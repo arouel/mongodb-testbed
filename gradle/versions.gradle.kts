@@ -8,6 +8,7 @@ configure<ExtraPropertiesExtension> {
             "errorproneJavac" to "9+181-r4173-1",
             "guava" to "26.0-jre",
             "immutables" to "2.7.1",
+            "jmh" to "1.21",
             "log4j" to "2.11.1",
             "mongoJavaDriver" to "3.8.1",
             "vertx" to "3.5.3"))
