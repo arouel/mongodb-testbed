@@ -1,5 +1,6 @@
 package prototype.command;
 
+import com.google.common.collect.ImmutableList;
 import core.CommandBus;
 import core.QueryBus;
 import core.Result;
@@ -14,6 +15,10 @@ public interface Operations extends CommandBus, Commands, QueryBus, Queries {
         return command(createTodo(title, description));
     }
 
+    default Result<Long> commandCreateTodo(String title, String description, long parentTodoId) {
+        return command(createTodo(title, description, parentTodoId));
+    }
+
     default Result<Unit> commandDeleteTodo(long todoId) {
         return command(deleteTodo(todoId));
     }
@@ -24,6 +29,10 @@ public interface Operations extends CommandBus, Commands, QueryBus, Queries {
 
     default Result<Todo> queryShowTodo(long todoId) {
         return query(showTodo(todoId));
+    }
+
+    default Result<ImmutableList<Todo>> queryShowTodoChildren(long parentTodoId) {
+        return query(showTodoChildren(parentTodoId));
     }
 
 }

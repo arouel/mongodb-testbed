@@ -9,6 +9,10 @@ public interface Commands {
         return ImmutableCreateTodo.builder().title(title).description(description).build();
     }
 
+    default CreateTodo createTodo(String title, String description, long parentTodoId) {
+        return ImmutableCreateTodo.builder().title(title).description(description).parentId(parentTodoId).build();
+    }
+
     default DeleteTodo deleteTodo(long todoId) {
         return ImmutableDeleteTodo.builder().todoId(todoId).build();
     }

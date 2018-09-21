@@ -1,14 +1,25 @@
 package prototype.command;
 
+import static com.google.common.base.Preconditions.*;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
 import javax.inject.Qualifier;
 import javax.inject.Singleton;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapterFactory;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import core.Command;
 import core.CommandBus;
 import core.CommandHandler;
@@ -23,9 +34,11 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
 import org.immutables.mongo.repository.RepositorySetup;
+import org.immutables.mongo.types.TypeAdapters;
 import prototype.command.handler.CreateTodoHandler;
 import prototype.command.handler.DeleteTodoHandler;
 import prototype.command.handler.EditDescriptionHandler;
+import prototype.command.handler.ShowTodoChildrenHandler;
 import prototype.command.handler.ShowTodoHandler;
 
 /**
@@ -43,6 +56,24 @@ class Components {
         } catch (Exception e) {
             return Result.unknownFailure(e);
         }
+    }
+
+    private static ListeningExecutorService newDirectExecutor() {
+        return MoreExecutors.listeningDecorator(MoreExecutors.newDirectExecutorService());
+    }
+
+    private static Gson newGson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        // there are no longer auto-registered from class-path, but from here or if added manually
+        gsonBuilder.registerTypeAdapterFactory(new TypeAdapters());
+        for (TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
+            gsonBuilder.registerTypeAdapterFactory(factory);
+        }
+        return gsonBuilder.create();
+    }
+
+    private static MongoClient newMongoClient(MongoClientURI uri) {
+        return new MongoClient(uri);
     }
 
     private static Result<Long> nextId(CounterRepository repository, String collection) {
@@ -123,7 +154,24 @@ class Components {
     @Provides
     @Singleton
     RepositorySetup repositorySetup(@MongoClientUri String mongoClientUri) {
-        return RepositorySetup.forUri(mongoClientUri);
+        MongoClientURI uri = new MongoClientURI(mongoClientUri);
+        @Nullable
+        String databaseName = uri.getDatabase();
+        checkArgument(databaseName != null, "URI should contain database path segment");
+        return RepositorySetup
+                .builder()
+                .database(newMongoClient(uri).getDatabase(databaseName))
+                .executor(newDirectExecutor())
+                .gson(newGson())
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    @IntoSet
+    @SuppressWarnings("unchecked")
+    public QueryHandler<Query<?>, ?> showTodoChildrenHandler(TodoRepository repository) {
+        return QueryHandler.class.cast(new ShowTodoChildrenHandler(repository));
     }
 
     @Provides

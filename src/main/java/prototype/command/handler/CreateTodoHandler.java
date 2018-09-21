@@ -33,6 +33,7 @@ public class CreateTodoHandler implements CommandHandler<CreateTodo, Long> {
                     .builder()
                     .description(command.description())
                     .id(id)
+                    .parentId(command.parentId())
                     .title(command.title())
                     .version(1)
                     .build();

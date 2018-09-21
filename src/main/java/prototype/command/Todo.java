@@ -1,5 +1,6 @@
 package prototype.command;
 
+import com.google.common.base.Optional;
 import org.immutables.gson.Gson.TypeAdapters;
 import org.immutables.mongo.Mongo.Id;
 import org.immutables.mongo.Mongo.Repository;
@@ -19,6 +20,8 @@ public abstract class Todo {
 
     @Id
     public abstract long id();
+
+    public abstract Optional<Long> parentId();
 
     public abstract String title();
 

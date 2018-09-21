@@ -9,4 +9,8 @@ public interface Queries {
         return ImmutableShowTodo.builder().todoId(todoId).build();
     }
 
+    default ShowTodoChildren showTodoChildren(long parentTodoId) {
+        return ImmutableShowTodoChildren.builder().parentTodoId(parentTodoId).build();
+    }
+
 }
