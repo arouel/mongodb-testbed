@@ -6,9 +6,9 @@ import org.immutables.mongo.Mongo.Repository;
 import org.immutables.value.Value.Immutable;
 
 @Immutable
-@Repository("counters")
+@Repository
 @TypeAdapters
-abstract class Counter {
+public abstract class Counter {
 
     static Counter of(String collection, long sequence) {
         return ImmutableCounter.builder().collection(collection).sequence(sequence).build();

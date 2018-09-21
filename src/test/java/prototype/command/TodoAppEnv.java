@@ -21,6 +21,7 @@ class TodoAppEnv
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
+        _app.command(ResetCollections.of()).get();
     }
 
     TodoApp app() {
