@@ -9,15 +9,15 @@ public interface Commands {
         return ImmutableCreateTodo.builder().title(title).description(description).build();
     }
 
-    default CreateTodo createTodo(String title, String description, long parentTodoId) {
+    default CreateTodo createTodo(String title, String description, TodoId parentTodoId) {
         return ImmutableCreateTodo.builder().title(title).description(description).parentId(parentTodoId).build();
     }
 
-    default DeleteTodo deleteTodo(long todoId) {
+    default DeleteTodo deleteTodo(TodoId todoId) {
         return ImmutableDeleteTodo.builder().todoId(todoId).build();
     }
 
-    default EditDescription editDescription(long todoId, String description) {
+    default EditDescription editDescription(TodoId todoId, String description) {
         return ImmutableEditDescription.builder().todoId(todoId).description(description).build();
     }
 

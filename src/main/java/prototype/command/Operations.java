@@ -1,6 +1,7 @@
 package prototype.command;
 
 import com.google.common.collect.ImmutableList;
+
 import core.CommandBus;
 import core.QueryBus;
 import core.Result;
@@ -11,31 +12,31 @@ import core.Unit;
  */
 public interface Operations extends CommandBus, Commands, QueryBus, Queries {
 
-    default Result<Long> commandCreateTodo(String title, String description) {
+    default Result<TodoId> commandCreateTodo(String title, String description) {
         return command(createTodo(title, description));
     }
 
-    default Result<Long> commandCreateTodo(String title, String description, long parentTodoId) {
+    default Result<TodoId> commandCreateTodo(String title, String description, TodoId parentTodoId) {
         return command(createTodo(title, description, parentTodoId));
     }
 
-    default Result<Unit> commandDeleteTodo(long todoId) {
+    default Result<Unit> commandDeleteTodo(TodoId todoId) {
         return command(deleteTodo(todoId));
     }
 
-    default Result<Long> commandEditDescription(long todoId, String description) {
+    default Result<TodoId> commandEditDescription(TodoId todoId, String description) {
         return command(editDescription(todoId, description));
     }
 
-    default Result<Todo> queryShowTodo(long todoId) {
+    default Result<Todo> queryShowTodo(TodoId todoId) {
         return query(showTodo(todoId));
     }
 
-    default Result<ImmutableList<Todo>> queryShowTodoChildren(long parentTodoId) {
+    default Result<ImmutableList<Todo>> queryShowTodoChildren(TodoId parentTodoId) {
         return query(showTodoChildren(parentTodoId));
     }
 
-    default Result<Node<Todo>> queryShowTodoTree(long todoId) {
+    default Result<Node<Todo>> queryShowTodoTree(TodoId todoId) {
         return query(showTodoTree(todoId));
     }
 

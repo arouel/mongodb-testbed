@@ -5,15 +5,15 @@ package prototype.command;
  */
 public interface Queries {
 
-    default ShowTodo showTodo(long todoId) {
+    default ShowTodo showTodo(TodoId todoId) {
         return ImmutableShowTodo.builder().todoId(todoId).build();
     }
 
-    default ShowTodoChildren showTodoChildren(long parentTodoId) {
+    default ShowTodoChildren showTodoChildren(TodoId parentTodoId) {
         return ImmutableShowTodoChildren.builder().parentTodoId(parentTodoId).build();
     }
 
-    default ShowTodoTree showTodoTree(long todoId) {
+    default ShowTodoTree showTodoTree(TodoId todoId) {
         return ImmutableShowTodoTree.builder().todoId(todoId).build();
     }
 

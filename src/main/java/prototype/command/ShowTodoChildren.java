@@ -1,12 +1,14 @@
 package prototype.command;
 
-import com.google.common.collect.ImmutableList;
-import core.Query;
 import org.immutables.value.Value.Immutable;
+
+import com.google.common.collect.ImmutableList;
+
+import core.Query;
 
 @Immutable
 public abstract class ShowTodoChildren implements Query<ImmutableList<Todo>> {
 
-    public abstract long parentTodoId();
+    public abstract TodoId parentTodoId();
 
 }

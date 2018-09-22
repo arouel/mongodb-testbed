@@ -114,7 +114,7 @@ class Components {
     @Singleton
     @IntoSet
     @SuppressWarnings("unchecked")
-    CommandHandler<Command<?>, ?> createTodoHandler(Supplier<Long> nextTodoId, TodoRepository repository) {
+    CommandHandler<Command<?>, ?> createTodoHandler(Supplier<TodoId> nextTodoId, TodoRepository repository) {
         return CommandHandler.class.cast(new CreateTodoHandler(nextTodoId, repository));
     }
 
@@ -148,11 +148,13 @@ class Components {
 
     @Provides
     @Singleton
-    Supplier<Long> nextTodoId(CounterRepository counterRepository) {
-        return new Supplier<Long>() {
+    Supplier<TodoId> nextTodoId(CounterRepository counterRepository) {
+        return new Supplier<TodoId>() {
             @Override
-            public Long get() {
-                return nextId(counterRepository, Todo.class.getSimpleName()).get();
+            public TodoId get() {
+                return nextId(counterRepository, Todo.class.getSimpleName())
+                        .map(TodoId::of)
+                        .get();
             }
         };
     }

@@ -1,11 +1,12 @@
 package prototype.command;
 
-import core.Query;
 import org.immutables.value.Value.Immutable;
+
+import core.Query;
 
 @Immutable
 public abstract class ShowTodoTree implements Query<Node<Todo>> {
 
-    public abstract long todoId();
+    public abstract TodoId todoId();
 
 }

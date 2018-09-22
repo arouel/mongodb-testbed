@@ -1,15 +1,17 @@
 package prototype.command.handler;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
 import com.google.common.collect.FluentIterable;
+
 import core.QueryHandler;
 import core.Result;
 import prototype.command.Node;
 import prototype.command.ShowTodoTree;
 import prototype.command.Todo;
+import prototype.command.TodoId;
 import prototype.command.TodoRepository;
 import prototype.command.TodoRepository.Criteria;
 
@@ -21,7 +23,7 @@ public class ShowTodoTreeHandler implements QueryHandler<ShowTodoTree, Node<Todo
         _repository = requireNonNull(repository);
     }
 
-    private Iterable<Node<Todo>> children(long parentId) {
+    private Iterable<Node<Todo>> children(TodoId parentId) {
         Criteria byParentId = _repository
                 .criteria()
                 .parentId(parentId);

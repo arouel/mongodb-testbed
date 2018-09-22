@@ -1,15 +1,17 @@
 package prototype.command.handler;
 
-import static java.util.Objects.*;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Optional;
+
 import core.CommandHandler;
 import core.Result;
 import prototype.command.EditDescription;
 import prototype.command.Todo;
+import prototype.command.TodoId;
 import prototype.command.TodoRepository;
 
-public class EditDescriptionHandler implements CommandHandler<EditDescription, Long> {
+public class EditDescriptionHandler implements CommandHandler<EditDescription, TodoId> {
 
     private final TodoRepository _repository;
 
@@ -23,7 +25,7 @@ public class EditDescriptionHandler implements CommandHandler<EditDescription, L
     }
 
     @Override
-    public Result<Long> handle(EditDescription command) {
+    public Result<TodoId> handle(EditDescription command) {
         try {
             Optional<Todo> update = _repository
                     .findById(command.todoId())

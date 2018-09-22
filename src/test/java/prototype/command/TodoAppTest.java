@@ -1,11 +1,13 @@
 package prototype.command;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableList;
+
 import core.Result;
 import core.Unit;
-import org.junit.jupiter.api.Test;
 
 class TodoAppTest implements TodoAppTestSupport {
 
@@ -16,11 +18,11 @@ class TodoAppTest implements TodoAppTestSupport {
         CreateTodo command = createTodo("Lunch", "at the italian place");
 
         // to test
-        Result<Long> result = command(command);
+        Result<TodoId> result = command(command);
 
         // verify
         assertThat(result.isSuccess()).as(result.toString()).isTrue();
-        long todoId = result.get();
+        TodoId todoId = result.get();
         Result<Todo> query = queryShowTodo(todoId);
         assertThat(query.get().title()).isEqualTo(command.title());
         assertThat(query.get().description()).isEqualTo(command.description());
@@ -30,7 +32,7 @@ class TodoAppTest implements TodoAppTestSupport {
     void testDeleteTodo() {
 
         // set up
-        long todoId = commandCreateTodo("Lunch", "at the italian place").get();
+        TodoId todoId = commandCreateTodo("Lunch", "at the italian place").get();
 
         // to test
         Result<Unit> result = commandDeleteTodo(todoId);
@@ -43,10 +45,10 @@ class TodoAppTest implements TodoAppTestSupport {
     void testEditDescription() {
 
         // set up
-        long todoId = commandCreateTodo("Lunch", "at the italian place").get();
+        TodoId todoId = commandCreateTodo("Lunch", "at the italian place").get();
 
         // to test
-        Result<Long> result = commandEditDescription(todoId, "at the korean place");
+        Result<TodoId> result = commandEditDescription(todoId, "at the korean place");
 
         // verify
         assertThat(result).isEqualTo(Result.success(todoId));
@@ -58,7 +60,7 @@ class TodoAppTest implements TodoAppTestSupport {
     void testShowTodo() {
 
         // set up
-        long todoId = commandCreateTodo("Lunch", "at the italian place").get();
+        TodoId todoId = commandCreateTodo("Lunch", "at the italian place").get();
 
         // to test
         Result<Todo> result = queryShowTodo(todoId);
@@ -72,9 +74,9 @@ class TodoAppTest implements TodoAppTestSupport {
     void testShowTodoChildren() {
 
         // set up
-        long todoId1 = commandCreateTodo("Lunch", "at the italian place").get();
-        long todoId2 = commandCreateTodo("Lunch", "at the italian place", todoId1).get();
-        long todoId3 = commandCreateTodo("Lunch", "at the italian place", todoId1).get();
+        TodoId todoId1 = commandCreateTodo("Lunch", "at the italian place").get();
+        TodoId todoId2 = commandCreateTodo("Lunch", "at the italian place", todoId1).get();
+        TodoId todoId3 = commandCreateTodo("Lunch", "at the italian place", todoId1).get();
 
         // to test
         Result<ImmutableList<Todo>> result = queryShowTodoChildren(todoId1);
@@ -89,19 +91,19 @@ class TodoAppTest implements TodoAppTestSupport {
     void testShowTodoTree() {
 
         // set up
-        long todoId1 = commandCreateTodo("Todo 1", "desc 1").get();
-        long todoId2 = commandCreateTodo("Todo 2", "desc 2", todoId1).get();
-        long todoId3 = commandCreateTodo("Todo 3", "desc 3", todoId1).get();
-        long todoId4 = commandCreateTodo("Todo 4", "desc 4", todoId2).get();
-        long todoId5 = commandCreateTodo("Todo 5", "desc 5", todoId3).get();
-        long todoId6 = commandCreateTodo("Todo 6", "desc 6", todoId4).get();
-        long todoId7 = commandCreateTodo("Todo 7", "desc 7", todoId3).get();
+        TodoId todoId1 = commandCreateTodo("Todo 1", "desc 1").get();
+        TodoId todoId2 = commandCreateTodo("Todo 2", "desc 2", todoId1).get();
+        TodoId todoId3 = commandCreateTodo("Todo 3", "desc 3", todoId1).get();
+        TodoId todoId4 = commandCreateTodo("Todo 4", "desc 4", todoId2).get();
+        TodoId todoId5 = commandCreateTodo("Todo 5", "desc 5", todoId3).get();
+        TodoId todoId6 = commandCreateTodo("Todo 6", "desc 6", todoId4).get();
+        TodoId todoId7 = commandCreateTodo("Todo 7", "desc 7", todoId3).get();
 
         // to test
         Result<Node<Todo>> result = queryShowTodoTree(todoId1);
 
         // verify
-        Node<Long> node = result.get().map(Todo::id);
+        Node<TodoId> node = result.get().map(Todo::id);
 
         assertThat(node.allValues()).containsExactly(todoId1, todoId2, todoId4, todoId6, todoId3, todoId5, todoId7);
         assertThat(node.allChildValues()).containsExactly(todoId2, todoId4, todoId6, todoId3, todoId5, todoId7);

@@ -1,13 +1,14 @@
 package prototype.command;
 
-import core.Command;
 import org.immutables.value.Value.Immutable;
 
+import core.Command;
+
 @Immutable
-public abstract class EditDescription implements Command<Long> {
+public abstract class EditDescription implements Command<TodoId> {
 
     public abstract String description();
 
-    public abstract long todoId();
+    public abstract TodoId todoId();
 
 }
