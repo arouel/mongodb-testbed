@@ -214,7 +214,15 @@ tasks.withType(SpotBugsTask::class) {
 
 // JMH
 jmh {
-    resultFormat = "json"
+    include       = listOf(".*TodoAppBenchmark.*")
+    jvmArgsAppend = listOf("-XX:+UnlockCommercialFeatures")
+    resultFormat  = "json"
+    profilers     = listOf("profilers.FlightRecordingProfiler")
+}
+
+dependencies {
+    // add Java Flight Recorder profiler
+    jmh("com.github.biboudis:jmh-profilers:0.1.4")
 }
 
 // Error Prone
