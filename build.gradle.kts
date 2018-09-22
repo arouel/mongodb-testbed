@@ -1,6 +1,7 @@
 import com.github.spotbugs.SpotBugsExtension
 import com.github.spotbugs.SpotBugsTask
 import net.ltgt.gradle.apt.*
+import net.ltgt.gradle.errorprone.*
 import org.gradle.plugins.ide.eclipse.model.EclipseJdt
 import org.gradle.plugins.ide.eclipse.model.EclipseModel
 import org.gradle.plugins.ide.idea.model.IdeaLanguageLevel
@@ -201,11 +202,6 @@ dependencies {
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1")
 }
 
-// JMH
-jmh {
-    resultFormat = "json"
-}
-
 tasks.withType(SpotBugsTask::class) {
     reports {
         xml.isEnabled = false
@@ -214,4 +210,14 @@ tasks.withType(SpotBugsTask::class) {
 
     include("**/*.java")
     dependsOn(tasks["compileJava"])
+}
+
+// JMH
+jmh {
+    resultFormat = "json"
+}
+
+// Error Prone
+tasks.withType<JavaCompile>().configureEach {
+    options.errorprone.disableWarningsInGeneratedCode = true
 }
