@@ -201,14 +201,9 @@ dependencies {
     spotbugsPlugins("com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1")
 }
 
-// jmh
+// JMH
 jmh {
     resultFormat = "json"
-}
-
-dependencies {
-    jmh(group = "org.openjdk.jmh", name = "jmh-core", version = versions["jmh"])
-    jmh(group = "org.openjdk.jmh", name = "jmh-generator-annprocess", version = versions["jmh"])
 }
 
 tasks.withType(SpotBugsTask::class) {
