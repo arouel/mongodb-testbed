@@ -66,16 +66,6 @@ class Components {
         return MoreExecutors.listeningDecorator(MoreExecutors.newDirectExecutorService());
     }
 
-    private static Gson newGson() {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        // there are no longer auto-registered from class-path, but from here or if added manually
-        gsonBuilder.registerTypeAdapterFactory(new TypeAdapters());
-        for (TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
-            gsonBuilder.registerTypeAdapterFactory(factory);
-        }
-        return gsonBuilder.create();
-    }
-
     private static Result<Long> nextId(CounterRepository repository, String collection) {
         return nextSequence(repository, collection)
                 .recover(failure -> createCounter(repository, collection)
@@ -136,6 +126,17 @@ class Components {
 
     @Provides
     @Singleton
+    Gson gson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapterFactory(new TypeAdapters());
+        for (TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
+            gsonBuilder.registerTypeAdapterFactory(factory);
+        }
+        return gsonBuilder.create();
+    }
+
+    @Provides
+    @Singleton
     MongoClient mongoClient(MongoClientURI uri) {
         return new MongoClient(uri);
     }
@@ -175,7 +176,7 @@ class Components {
                 .builder()
                 .database(mongoClient.getDatabase(databaseName))
                 .executor(newDirectExecutor())
-                .gson(newGson())
+                .gson(gson())
                 .build();
     }
 
