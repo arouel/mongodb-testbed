@@ -62,7 +62,8 @@ public class SimpleCommandBusBenchmark {
         Collections.shuffle(commands, random);
         _commands = ImmutableList.copyOf(commands);
 
-        List<CommandHandler<?, ?>> commandHandlers = new ArrayList<>();
+        @SuppressWarnings("rawtypes")
+        List<CommandHandler> commandHandlers = new ArrayList<>();
         commandHandlers.add(new TestCommand01Handler());
         commandHandlers.add(new TestCommand02Handler());
         commandHandlers.add(new TestCommand03Handler());
@@ -84,9 +85,7 @@ public class SimpleCommandBusBenchmark {
         commandHandlers.add(new TestCommand19Handler());
         commandHandlers.add(new TestCommand20Handler());
         Collections.shuffle(commandHandlers, random);
-        @SuppressWarnings("unchecked")
-        Iterable<CommandHandler<Command<?>, ?>> handlers = Iterable.class.cast(ImmutableList.builder().addAll(commandHandlers).build());
-        _commandBus = new SimpleCommandBus(handlers);
+        _commandBus = new SimpleCommandBus(commandHandlers);
         _index = 0;
     }
 

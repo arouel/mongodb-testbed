@@ -24,10 +24,8 @@ import com.google.gson.TypeAdapterFactory;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 
-import core.Command;
 import core.CommandBus;
 import core.CommandHandler;
-import core.Query;
 import core.QueryBus;
 import core.QueryHandler;
 import core.Result;
@@ -90,7 +88,7 @@ class Components {
 
     @Provides
     @Singleton
-    public CommandBus commandBus(Set<CommandHandler<Command<?>, ?>> handlers) {
+    public CommandBus commandBus(@SuppressWarnings("rawtypes") Set<CommandHandler> handlers) {
         return new SimpleCommandBus(handlers);
     }
 
@@ -103,25 +101,25 @@ class Components {
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    CommandHandler<Command<?>, ?> createTodoHandler(Supplier<TodoId> nextTodoId, TodoRepository repository) {
-        return CommandHandler.class.cast(new CreateTodoHandler(nextTodoId, repository));
+    @SuppressWarnings("rawtypes")
+    CommandHandler createTodoHandler(Supplier<TodoId> nextTodoId, TodoRepository repository) {
+        return new CreateTodoHandler(nextTodoId, repository);
     }
 
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    CommandHandler<Command<?>, ?> deleteTodoHandler(TodoRepository repository) {
-        return CommandHandler.class.cast(new DeleteTodoHandler(repository));
+    @SuppressWarnings("rawtypes")
+    CommandHandler deleteTodoHandler(TodoRepository repository) {
+        return new DeleteTodoHandler(repository);
     }
 
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    CommandHandler<Command<?>, ?> editDescriptionHandler(TodoRepository repository) {
-        return CommandHandler.class.cast(new EditDescriptionHandler(repository));
+    @SuppressWarnings("rawtypes")
+    CommandHandler editDescriptionHandler(TodoRepository repository) {
+        return new EditDescriptionHandler(repository);
     }
 
     @Provides
@@ -162,7 +160,7 @@ class Components {
 
     @Provides
     @Singleton
-    public QueryBus queryBus(Set<QueryHandler<Query<?>, ?>> handlers) {
+    public QueryBus queryBus(@SuppressWarnings("rawtypes") Set<QueryHandler> handlers) {
         return new SimpleQueryBus(handlers);
     }
 
@@ -183,36 +181,36 @@ class Components {
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    CommandHandler<Command<?>, ?> resetCollectionsHandler(
+    @SuppressWarnings("rawtypes")
+    CommandHandler resetCollectionsHandler(
             MongoClient mongoClient,
             CounterRepository counterRepository,
             TodoRepository todoRepository) {
-        return CommandHandler.class.cast(new ResetCollectionsHandler(mongoClient, counterRepository, todoRepository));
+        return new ResetCollectionsHandler(mongoClient, counterRepository, todoRepository);
     }
 
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    public QueryHandler<Query<?>, ?> showTodoChildrenHandler(TodoRepository repository) {
-        return QueryHandler.class.cast(new ShowTodoChildrenHandler(repository));
+    @SuppressWarnings("rawtypes")
+    public QueryHandler showTodoChildrenHandler(TodoRepository repository) {
+        return new ShowTodoChildrenHandler(repository);
     }
 
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    public QueryHandler<Query<?>, ?> showTodoHandler(TodoRepository repository) {
-        return QueryHandler.class.cast(new ShowTodoHandler(repository));
+    @SuppressWarnings("rawtypes")
+    public QueryHandler showTodoHandler(TodoRepository repository) {
+        return new ShowTodoHandler(repository);
     }
 
     @Provides
     @Singleton
     @IntoSet
-    @SuppressWarnings("unchecked")
-    public QueryHandler<Query<?>, ?> showTodoTreeHandler(TodoRepository repository) {
-        return QueryHandler.class.cast(new ShowTodoTreeHandler(repository));
+    @SuppressWarnings("rawtypes")
+    public QueryHandler showTodoTreeHandler(TodoRepository repository) {
+        return new ShowTodoTreeHandler(repository);
     }
 
     @Provides

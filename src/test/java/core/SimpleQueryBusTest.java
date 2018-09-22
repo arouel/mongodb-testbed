@@ -29,15 +29,14 @@ class SimpleQueryBusTest {
         Collections.shuffle(querys, random);
         _querys = ImmutableList.copyOf(querys);
 
-        List<QueryHandler<?, ?>> queryHandlers = new ArrayList<>();
+        @SuppressWarnings("rawtypes")
+        List<QueryHandler> queryHandlers = new ArrayList<>();
         queryHandlers.add(new TestQuery01Handler());
         queryHandlers.add(new TestQuery02Handler());
         queryHandlers.add(new TestQuery03Handler());
         queryHandlers.add(new TestQuery04Handler());
         Collections.shuffle(queryHandlers, random);
-        @SuppressWarnings("unchecked")
-        Iterable<QueryHandler<Query<?>, ?>> handlers = Iterable.class.cast(ImmutableList.builder().addAll(queryHandlers).build());
-        _queryBus = new SimpleQueryBus(handlers);
+        _queryBus = new SimpleQueryBus(queryHandlers);
     }
 
     @Test

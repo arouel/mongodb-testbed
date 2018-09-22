@@ -29,15 +29,14 @@ class SimpleCommandBusTest {
         Collections.shuffle(commands, random);
         _commands = ImmutableList.copyOf(commands);
 
-        List<CommandHandler<?, ?>> commandHandlers = new ArrayList<>();
+        @SuppressWarnings("rawtypes")
+        List<CommandHandler> commandHandlers = new ArrayList<>();
         commandHandlers.add(new TestCommand01Handler());
         commandHandlers.add(new TestCommand02Handler());
         commandHandlers.add(new TestCommand03Handler());
         commandHandlers.add(new TestCommand04Handler());
         Collections.shuffle(commandHandlers, random);
-        @SuppressWarnings("unchecked")
-        Iterable<CommandHandler<Command<?>, ?>> handlers = Iterable.class.cast(ImmutableList.builder().addAll(commandHandlers).build());
-        _commandBus = new SimpleCommandBus(handlers);
+        _commandBus = new SimpleCommandBus(commandHandlers);
     }
 
     @Test
