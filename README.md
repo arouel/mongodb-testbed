@@ -15,9 +15,9 @@ docker network create my-mongo-cluster
 The next step is to create the MongoDB docker containers and start them.
 
 ```
-docker run -p 27017:27017 --name mongo-node1 -d --net my-mongo-cluster mongo --replSet "rs0"
-docker run --name mongo-node2 -d --net my-mongo-cluster mongo --replSet "rs0"
-docker run --name mongo-node3 -d --net my-mongo-cluster mongo --replSet "rs0"
+docker run -d -p 27017:27017 --name mongo-node1 -d --net my-mongo-cluster mongo --replSet "rs0"
+docker run -d -p 27018:27017 --name mongo-node2 -d --net my-mongo-cluster mongo --replSet "rs0"
+docker run -d -p 27019:27017 --name mongo-node3 -d --net my-mongo-cluster mongo --replSet "rs0"
 ```
 
 In order to form a replica set a configuration needs to be applied to one of the nodes.
