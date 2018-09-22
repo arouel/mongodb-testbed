@@ -5,10 +5,13 @@ import static java.util.Objects.requireNonNull;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * Implementation of the {@link CommandBus} that dispatches commands to the handlers subscribed to that specific command type.
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
+@ThreadSafe
 public final class SimpleCommandBus implements CommandBus {
 
     private final ConcurrentMap<Class<?>, CommandHandler> _cache;
@@ -17,6 +20,10 @@ public final class SimpleCommandBus implements CommandBus {
     public SimpleCommandBus(Iterable<CommandHandler> handlers) {
         _cache = new ConcurrentHashMap<>();
         _handlers = requireNonNull(handlers);
+    }
+
+    private static boolean matches(Command<?> command, CommandHandler handler) {
+        return handler.commandType().isAssignableFrom(command.getClass());
     }
 
     @Override
@@ -41,9 +48,5 @@ public final class SimpleCommandBus implements CommandBus {
         }
 
         return Result.unknownFailure(new UnsupportedOperationException(String.format("Cannot find implementation for '%s'", command.getClass().getName())));
-    }
-
-    private boolean matches(Command<?> command, CommandHandler handler) {
-        return handler.commandType().isAssignableFrom(command.getClass());
     }
 }

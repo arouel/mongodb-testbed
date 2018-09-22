@@ -5,10 +5,13 @@ import static java.util.Objects.requireNonNull;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.annotation.concurrent.ThreadSafe;
+
 /**
  * Implementation of the {@link QueryBus} that dispatches queries to the handlers subscribed to that specific query type.
  */
 @SuppressWarnings({ "rawtypes", "unchecked" })
+@ThreadSafe
 public final class SimpleQueryBus implements QueryBus {
 
     private final ConcurrentMap<Class<?>, QueryHandler> _cache;
@@ -19,7 +22,7 @@ public final class SimpleQueryBus implements QueryBus {
         _handlers = requireNonNull(handlers);
     }
 
-    private boolean matches(Query<?> query, QueryHandler handler) {
+    private static boolean matches(Query<?> query, QueryHandler handler) {
         return handler.queryType().isAssignableFrom(query.getClass());
     }
 
