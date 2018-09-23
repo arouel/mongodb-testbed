@@ -16,6 +16,7 @@ import javax.inject.Singleton;
 import org.immutables.mongo.repository.RepositorySetup;
 import org.immutables.mongo.types.TypeAdapters;
 
+import com.google.common.base.Optional;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gson.Gson;
@@ -32,7 +33,6 @@ import core.QueryHandler;
 import core.Result;
 import core.SimpleCommandBus;
 import core.SimpleQueryBus;
-import core.Unit;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
@@ -53,38 +53,20 @@ import prototype.command.handler.ShowTodoTreeHandler;
 @Module
 class Components {
 
-    private static Result<Unit> createCounter(CounterRepository repository, String collection) {
-        try {
-            repository
-                    .insert(Counter.of(collection, 0L))
-                    .get();
-            return Result.success(Unit.VALUE);
-        } catch (Exception e) {
-            return Result.unknownFailure(e);
-        }
-    }
-
     private static ListeningExecutorService newDirectExecutor() {
         return MoreExecutors.listeningDecorator(MoreExecutors.newDirectExecutorService());
     }
 
     private static Result<Long> nextId(CounterRepository repository, String collection) {
-        return nextSequence(repository, collection)
-                .recover(failure -> createCounter(repository, collection)
-                        .flatMap(unit -> nextId(repository, collection))
-                        .get());
-    }
-
-    private static Result<Long> nextSequence(CounterRepository repository, String collection) {
         try {
-            Long incrementSequence = repository
+            Optional<Counter> counter = repository
                     .findByCollection(collection)
                     .andModifyFirst()
                     .incrementSequence(1)
-                    .update()
-                    .transform(c -> c.get().sequence())
+                    .returningNew()
+                    .upsert()
                     .get();
-            return Result.success(incrementSequence);
+            return Result.success(counter.get().sequence());
         } catch (Exception e) {
             return Result.unknownFailure(e);
         }
