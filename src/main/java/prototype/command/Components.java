@@ -26,6 +26,7 @@ import com.mongodb.MongoClientURI;
 
 import core.CommandBus;
 import core.CommandHandler;
+import core.Event;
 import core.QueryBus;
 import core.QueryHandler;
 import core.Result;
@@ -35,6 +36,9 @@ import core.Unit;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
+import prototype.command.event.EventId;
+import prototype.command.event.EventRepository;
+import prototype.command.event.Events;
 import prototype.command.handler.CreateTodoHandler;
 import prototype.command.handler.DeleteTodoHandler;
 import prototype.command.handler.EditDescriptionHandler;
@@ -102,8 +106,8 @@ class Components {
     @Singleton
     @IntoSet
     @SuppressWarnings("rawtypes")
-    CommandHandler createTodoHandler(Supplier<TodoId> nextTodoId, TodoRepository repository) {
-        return new CreateTodoHandler(nextTodoId, repository);
+    CommandHandler createTodoHandler(Supplier<TodoId> nextTodoId, TodoRepository repository, TodoEventStore eventStore) {
+        return new CreateTodoHandler(nextTodoId, repository, eventStore);
     }
 
     @Provides
@@ -124,12 +128,25 @@ class Components {
 
     @Provides
     @Singleton
+    EventRepository eventRepository(RepositorySetup configuration) {
+        return new EventRepository(configuration);
+    }
+
+    @Provides
+    @Singleton
+    TodoEventStore eventStore(Supplier<EventId> nextEventId, EventRepository repository) {
+        return new TodoEventStore(nextEventId, repository);
+    }
+
+    @Provides
+    @Singleton
     Gson gson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapterFactory(new TypeAdapters());
         for (TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
             gsonBuilder.registerTypeAdapterFactory(factory);
         }
+        gsonBuilder.registerTypeAdapterFactory(Events.RUNTIME_TYPE_ADAPTER_FACTORY);
         return gsonBuilder.create();
     }
 
@@ -143,6 +160,19 @@ class Components {
     @Singleton
     MongoClientURI mongoClientUri(@MongoClientUri String mongoClientUri) {
         return new MongoClientURI(mongoClientUri);
+    }
+
+    @Provides
+    @Singleton
+    Supplier<EventId> nextEventId(CounterRepository counterRepository) {
+        return new Supplier<EventId>() {
+            @Override
+            public EventId get() {
+                return nextId(counterRepository, Event.class.getSimpleName())
+                        .map(EventId::of)
+                        .get();
+            }
+        };
     }
 
     @Provides
