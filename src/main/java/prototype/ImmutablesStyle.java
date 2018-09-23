@@ -41,7 +41,7 @@ import org.immutables.value.Value.Style.ImplementationVisibility;
 
                 intern = false,
 
-                prehash = true,
+                prehash = false,
 
                 singleton = false
 

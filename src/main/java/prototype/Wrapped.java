@@ -16,6 +16,6 @@ import org.immutables.value.Value.Style.ImplementationVisibility;
         visibility = ImplementationVisibility.PUBLIC,
 
         /** Seems unnecessary to have builder or superfluous copy method */
-        defaults = @Immutable(builder = false, copy = false, intern = false, prehash = true))
+        defaults = @Immutable(builder = false, copy = false, intern = false, prehash = false))
 public @interface Wrapped {
 }
