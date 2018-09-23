@@ -4,8 +4,6 @@ import java.time.ZonedDateTime;
 
 import org.immutables.value.Value.Default;
 
-import prototype.command.event.EventId;
-
 /**
  * Defines something that <b>happened</b> that domain experts care about.
  */
