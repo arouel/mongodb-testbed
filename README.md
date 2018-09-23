@@ -33,9 +33,9 @@ rs.initiate({
   _id: "rs0",
   version: 1,
   members: [
-    { "_id" : 0, "host" : "mongo-node1:27017" },
-    { "_id" : 1, "host" : "mongo-node2:27017" },
-    { "_id" : 2, "host" : "mongo-node3:27017" }
+    { "_id" : 0, "host" : "mongo-node1:27017", "priority" : 1 },
+    { "_id" : 1, "host" : "mongo-node2:27017", "priority" : 0.5 },
+    { "_id" : 2, "host" : "mongo-node3:27017", "priority" : 0.5 }
   ],
   settings: {
   }
