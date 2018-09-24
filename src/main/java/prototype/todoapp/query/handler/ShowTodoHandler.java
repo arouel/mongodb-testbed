@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.query.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -6,9 +6,9 @@ import com.google.common.base.Optional;
 
 import core.QueryHandler;
 import core.Result;
-import prototype.todoapp.ShowTodo;
 import prototype.todoapp.Todo;
 import prototype.todoapp.TodoRepository;
+import prototype.todoapp.query.ShowTodo;
 
 public class ShowTodoHandler implements QueryHandler<ShowTodo, Todo> {
 

@@ -1,4 +1,4 @@
-package prototype.todoapp;
+package prototype.todoapp.command;
 
 import org.immutables.value.Value.Immutable;
 

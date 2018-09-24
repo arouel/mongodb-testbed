@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.command.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -6,12 +6,12 @@ import java.util.function.Supplier;
 
 import core.CommandHandler;
 import core.Result;
-import prototype.todoapp.CreateTodo;
 import prototype.todoapp.Todo;
-import prototype.todoapp.TodoEventStore;
 import prototype.todoapp.TodoId;
 import prototype.todoapp.TodoRepository;
+import prototype.todoapp.command.CreateTodo;
 import prototype.todoapp.event.Events;
+import prototype.todoapp.event.TodoEventStore;
 
 public class CreateTodoHandler implements CommandHandler<CreateTodo, TodoId>, Events {
 

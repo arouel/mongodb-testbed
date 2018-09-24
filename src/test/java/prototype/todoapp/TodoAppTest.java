@@ -8,6 +8,7 @@ import com.google.common.collect.ImmutableList;
 
 import core.Result;
 import core.Unit;
+import prototype.todoapp.command.CreateTodo;
 
 class TodoAppTest implements TodoAppTestSupport {
 

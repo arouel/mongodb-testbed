@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.command.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -7,9 +7,9 @@ import com.google.common.base.Optional;
 import core.CommandHandler;
 import core.Result;
 import core.Unit;
-import prototype.todoapp.DeleteTodo;
 import prototype.todoapp.Todo;
 import prototype.todoapp.TodoRepository;
+import prototype.todoapp.command.DeleteTodo;
 
 public class DeleteTodoHandler implements CommandHandler<DeleteTodo, Unit> {
 

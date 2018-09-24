@@ -37,15 +37,16 @@ import core.SimpleQueryBus;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
+import prototype.todoapp.command.handler.CreateTodoHandler;
+import prototype.todoapp.command.handler.DeleteTodoHandler;
+import prototype.todoapp.command.handler.EditDescriptionHandler;
+import prototype.todoapp.command.handler.ResetCollectionsHandler;
 import prototype.todoapp.event.EventRepository;
 import prototype.todoapp.event.Events;
-import prototype.todoapp.handler.CreateTodoHandler;
-import prototype.todoapp.handler.DeleteTodoHandler;
-import prototype.todoapp.handler.EditDescriptionHandler;
-import prototype.todoapp.handler.ResetCollectionsHandler;
-import prototype.todoapp.handler.ShowTodoChildrenHandler;
-import prototype.todoapp.handler.ShowTodoHandler;
-import prototype.todoapp.handler.ShowTodoTreeHandler;
+import prototype.todoapp.event.TodoEventStore;
+import prototype.todoapp.query.handler.ShowTodoChildrenHandler;
+import prototype.todoapp.query.handler.ShowTodoHandler;
+import prototype.todoapp.query.handler.ShowTodoTreeHandler;
 
 /**
  * Describes all components of this application

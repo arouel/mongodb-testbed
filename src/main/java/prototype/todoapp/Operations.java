@@ -6,6 +6,8 @@ import core.CommandBus;
 import core.QueryBus;
 import core.Result;
 import core.Unit;
+import prototype.todoapp.command.Commands;
+import prototype.todoapp.query.Queries;
 
 /**
  * Convenient access to possible operations of this domain

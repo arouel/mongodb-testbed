@@ -6,6 +6,8 @@ import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+import prototype.todoapp.command.ResetCollections;
+
 class TodoAppEnv
         implements
         AfterAllCallback,

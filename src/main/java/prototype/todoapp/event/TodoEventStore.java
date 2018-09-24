@@ -1,4 +1,4 @@
-package prototype.todoapp;
+package prototype.todoapp.event;
 
 import static java.util.Objects.requireNonNull;
 
@@ -8,8 +8,7 @@ import com.google.common.base.Optional;
 
 import core.Event;
 import core.EventId;
-import prototype.todoapp.event.EventRepository;
-import prototype.todoapp.event.Events;
+import prototype.todoapp.TodoId;
 
 public final class TodoEventStore implements core.EventStore, Events {
 

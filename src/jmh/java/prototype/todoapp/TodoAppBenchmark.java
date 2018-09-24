@@ -15,6 +15,7 @@ import org.openjdk.jmh.annotations.State;
 import org.openjdk.jmh.annotations.Warmup;
 
 import core.Result;
+import prototype.todoapp.command.ResetCollections;
 
 @Fork(value = 1)
 @Warmup(iterations = 3)

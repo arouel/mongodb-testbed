@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.query.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -8,10 +8,10 @@ import com.google.common.collect.ImmutableList;
 
 import core.QueryHandler;
 import core.Result;
-import prototype.todoapp.ShowTodoChildren;
 import prototype.todoapp.Todo;
 import prototype.todoapp.TodoRepository;
 import prototype.todoapp.TodoRepository.Criteria;
+import prototype.todoapp.query.ShowTodoChildren;
 
 public class ShowTodoChildrenHandler implements QueryHandler<ShowTodoChildren, ImmutableList<Todo>> {
 

@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.command.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -9,8 +9,8 @@ import core.CommandHandler;
 import core.Result;
 import core.Unit;
 import prototype.todoapp.CounterRepository;
-import prototype.todoapp.ResetCollections;
 import prototype.todoapp.TodoRepository;
+import prototype.todoapp.command.ResetCollections;
 
 public class ResetCollectionsHandler implements CommandHandler<ResetCollections, Unit> {
 

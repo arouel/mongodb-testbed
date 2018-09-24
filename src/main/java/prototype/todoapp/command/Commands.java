@@ -1,4 +1,6 @@
-package prototype.todoapp;
+package prototype.todoapp.command;
+
+import prototype.todoapp.TodoId;
 
 /**
  * Commands of this domain

@@ -1,4 +1,6 @@
-package prototype.todoapp;
+package prototype.todoapp.query;
+
+import prototype.todoapp.TodoId;
 
 /**
  * Queries of this domain

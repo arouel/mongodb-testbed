@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.query.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -9,11 +9,11 @@ import com.google.common.collect.FluentIterable;
 import core.QueryHandler;
 import core.Result;
 import prototype.todoapp.Node;
-import prototype.todoapp.ShowTodoTree;
 import prototype.todoapp.Todo;
 import prototype.todoapp.TodoId;
 import prototype.todoapp.TodoRepository;
 import prototype.todoapp.TodoRepository.Criteria;
+import prototype.todoapp.query.ShowTodoTree;
 
 public class ShowTodoTreeHandler implements QueryHandler<ShowTodoTree, Node<Todo>> {
 

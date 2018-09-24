@@ -1,4 +1,4 @@
-package prototype.todoapp.handler;
+package prototype.todoapp.command.handler;
 
 import static java.util.Objects.requireNonNull;
 
@@ -6,10 +6,10 @@ import com.google.common.base.Optional;
 
 import core.CommandHandler;
 import core.Result;
-import prototype.todoapp.EditDescription;
 import prototype.todoapp.Todo;
 import prototype.todoapp.TodoId;
 import prototype.todoapp.TodoRepository;
+import prototype.todoapp.command.EditDescription;
 
 public class EditDescriptionHandler implements CommandHandler<EditDescription, TodoId> {
 
