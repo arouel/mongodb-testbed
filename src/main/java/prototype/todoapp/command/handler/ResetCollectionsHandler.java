@@ -11,19 +11,23 @@ import core.Unit;
 import prototype.todoapp.CounterRepository;
 import prototype.todoapp.TodoRepository;
 import prototype.todoapp.command.ResetCollections;
+import prototype.todoapp.event.EventRepository;
 
 public class ResetCollectionsHandler implements CommandHandler<ResetCollections, Unit> {
 
     private final MongoClient _mongoClient;
     private final CounterRepository _counterRepository;
+    private final EventRepository _eventRepository;
     private final TodoRepository _todoRepository;
 
     public ResetCollectionsHandler(
             MongoClient mongoClient,
             CounterRepository counterRepository,
+            EventRepository eventRepository,
             TodoRepository todoRepository) {
         _mongoClient = requireNonNull(mongoClient);
         _counterRepository = requireNonNull(counterRepository);
+        _eventRepository = requireNonNull(eventRepository);
         _todoRepository = requireNonNull(todoRepository);
     }
 
@@ -38,6 +42,7 @@ public class ResetCollectionsHandler implements CommandHandler<ResetCollections,
             try {
                 session.startTransaction();
                 _counterRepository.findAll().deleteAll().get();
+                _eventRepository.findAll().deleteAll().get();
                 _todoRepository.findAll().deleteAll().get();
                 session.commitTransaction();
                 session.close();

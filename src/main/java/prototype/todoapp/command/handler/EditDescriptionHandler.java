@@ -10,13 +10,16 @@ import prototype.todoapp.Todo;
 import prototype.todoapp.TodoId;
 import prototype.todoapp.TodoRepository;
 import prototype.todoapp.command.EditDescription;
+import prototype.todoapp.event.TodoEventStore;
 
 public class EditDescriptionHandler implements CommandHandler<EditDescription, TodoId> {
 
+    private final TodoEventStore _eventStore;
     private final TodoRepository _repository;
 
-    public EditDescriptionHandler(TodoRepository repository) {
+    public EditDescriptionHandler(TodoRepository repository, TodoEventStore eventStore) {
         _repository = requireNonNull(repository);
+        _eventStore = requireNonNull(eventStore);
     }
 
     @Override
@@ -36,6 +39,7 @@ public class EditDescriptionHandler implements CommandHandler<EditDescription, T
             if (!update.isPresent()) {
                 return Result.notFoundOrNotAccessible("Todo %s doesn’t exist", command.todoId());
             }
+            _eventStore.saveDescriptionEdited(command.todoId(), command.description());
             return Result.success(update.get().id());
         } catch (Exception e) {
             return Result.unknownFailure(e);

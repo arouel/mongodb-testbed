@@ -10,13 +10,16 @@ import core.Unit;
 import prototype.todoapp.Todo;
 import prototype.todoapp.TodoRepository;
 import prototype.todoapp.command.DeleteTodo;
+import prototype.todoapp.event.TodoEventStore;
 
 public class DeleteTodoHandler implements CommandHandler<DeleteTodo, Unit> {
 
+    private final TodoEventStore _eventStore;
     private final TodoRepository _repository;
 
-    public DeleteTodoHandler(TodoRepository repository) {
+    public DeleteTodoHandler(TodoRepository repository, TodoEventStore eventStore) {
         _repository = requireNonNull(repository);
+        _eventStore = requireNonNull(eventStore);
     }
 
     @Override
@@ -34,6 +37,7 @@ public class DeleteTodoHandler implements CommandHandler<DeleteTodo, Unit> {
             if (!delete.isPresent()) {
                 return Result.notFoundOrNotAccessible("Todo %s doesn’t exist", command.todoId());
             }
+            _eventStore.saveTodoDeleted(command.todoId());
             return Result.success(Unit.VALUE);
         } catch (Exception e) {
             return Result.unknownFailure(e);

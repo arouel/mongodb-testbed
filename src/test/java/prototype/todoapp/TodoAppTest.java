@@ -6,9 +6,11 @@ import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.ImmutableList;
 
+import core.Event;
 import core.Result;
 import core.Unit;
 import prototype.todoapp.command.CreateTodo;
+import prototype.todoapp.event.TodoCreated;
 
 class TodoAppTest implements TodoAppTestSupport {
 
@@ -27,6 +29,7 @@ class TodoAppTest implements TodoAppTestSupport {
         Result<Todo> query = queryShowTodo(todoId);
         assertThat(query.get().title()).isEqualTo(command.title());
         assertThat(query.get().description()).isEqualTo(command.description());
+        assertThat(events()).extracting(Event::eventType).containsExactly(TodoCreated.class.getName());
     }
 
     @Test

@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.time.ZonedDateTime;
 import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -37,6 +38,7 @@ import core.SimpleQueryBus;
 import dagger.Module;
 import dagger.Provides;
 import dagger.multibindings.IntoSet;
+import prototype.ZonedDateTimeTypeAdapter;
 import prototype.todoapp.command.handler.CreateTodoHandler;
 import prototype.todoapp.command.handler.DeleteTodoHandler;
 import prototype.todoapp.command.handler.EditDescriptionHandler;
@@ -97,16 +99,16 @@ class Components {
     @Singleton
     @IntoSet
     @SuppressWarnings("rawtypes")
-    CommandHandler deleteTodoHandler(TodoRepository repository) {
-        return new DeleteTodoHandler(repository);
+    CommandHandler deleteTodoHandler(TodoRepository repository, TodoEventStore eventStore) {
+        return new DeleteTodoHandler(repository, eventStore);
     }
 
     @Provides
     @Singleton
     @IntoSet
     @SuppressWarnings("rawtypes")
-    CommandHandler editDescriptionHandler(TodoRepository repository) {
-        return new EditDescriptionHandler(repository);
+    CommandHandler editDescriptionHandler(TodoRepository repository, TodoEventStore eventStore) {
+        return new EditDescriptionHandler(repository, eventStore);
     }
 
     @Provides
@@ -125,6 +127,7 @@ class Components {
     @Singleton
     Gson gson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeTypeAdapter());
         gsonBuilder.registerTypeAdapterFactory(new TypeAdapters());
         for (TypeAdapterFactory factory : ServiceLoader.load(TypeAdapterFactory.class)) {
             gsonBuilder.registerTypeAdapterFactory(factory);
@@ -198,8 +201,9 @@ class Components {
     CommandHandler resetCollectionsHandler(
             MongoClient mongoClient,
             CounterRepository counterRepository,
+            EventRepository eventRepository,
             TodoRepository todoRepository) {
-        return new ResetCollectionsHandler(mongoClient, counterRepository, todoRepository);
+        return new ResetCollectionsHandler(mongoClient, counterRepository, eventRepository, todoRepository);
     }
 
     @Provides

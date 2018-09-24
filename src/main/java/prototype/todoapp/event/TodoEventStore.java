@@ -2,6 +2,7 @@ package prototype.todoapp.event;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.List;
 import java.util.function.Supplier;
 
 import com.google.common.base.Optional;
@@ -20,13 +21,30 @@ public final class TodoEventStore implements core.EventStore, Events {
         _repository = requireNonNull(repository);
     }
 
+    public List<Event> events() {
+        return _repository
+                .findAll()
+                .fetchAll()
+                .getUnchecked();
+    }
+
     @Override
     public void save(Event event) {
         _repository.insert(event).getUnchecked();
     }
 
+    public void saveDescriptionEdited(TodoId id, String description) {
+        EventId eventId = _nextEventId.get();
+        save(descriptionEdited(eventId, id, description));
+    }
+
     public void saveTodoCreated(TodoId id, Optional<TodoId> parentId, String title, String description) {
         EventId eventId = _nextEventId.get();
         save(todoCreated(eventId, id, parentId, title, description));
+    }
+
+    public void saveTodoDeleted(TodoId id) {
+        EventId eventId = _nextEventId.get();
+        save(todoDeleted(eventId, id));
     }
 }

@@ -12,6 +12,7 @@ import core.Result;
 import dagger.BindsInstance;
 import dagger.Component;
 import prototype.todoapp.Components.MongoClientUri;
+import prototype.todoapp.event.TodoEventStore;
 
 @Component(modules = Components.class)
 @Singleton
@@ -30,6 +31,11 @@ public interface TodoApp extends Operations {
      * @return gateway to dispatch WRITE operations
      */
     CommandBus commandBus();
+
+    /**
+     * @return event store
+     */
+    TodoEventStore eventStore();
 
     /**
      * @return instance for serializing/deserializing a domain model to/from JSON

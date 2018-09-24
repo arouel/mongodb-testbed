@@ -2,8 +2,6 @@ package core;
 
 import java.time.ZonedDateTime;
 
-import org.immutables.value.Value.Default;
-
 /**
  * Defines something that <b>happened</b> that domain experts care about.
  */
@@ -11,15 +9,9 @@ public interface Event {
 
     EventId eventId();
 
-    @Default
-    default ZonedDateTime eventTime() {
-        return ZonedDateTime.now();
-    }
+    ZonedDateTime eventTime();
 
-    @Default
-    default String eventType() {
-        return getClass().getName();
-    }
+    String eventType();
 
     Event withEventId(EventId value);
 }
