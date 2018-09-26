@@ -70,6 +70,8 @@ dependencies {
 
     compile(group = "io.vertx", name = "vertx-core", version = versions["vertx"])
     compile(group = "io.vertx", name = "vertx-web", version = versions["vertx"])
+    testCompile(group = "io.vertx", name = "vertx-web-client", version = versions["vertx"])
+    testCompile(group = "io.vertx", name = "vertx-junit5", version = versions["vertx"])
 }
 
 dependencies {
